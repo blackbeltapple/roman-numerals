@@ -1,3 +1,4 @@
+import kata.bbc.roman.Numerals;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -101,13 +102,13 @@ public class NumeralsTest {
         @Test
         public void testAddSymbols() {
             Numerals numerals = new Numerals();
-            assertThat(numerals.addMultipleSymbols("X", 4), is(equalTo("XXXX")));
+            assertThat(numerals.concatMultipleSymbols("X", 4), is(equalTo("XXXX")));
         }
 
         @Test
         public void testAddSymbolsForZeroQuantity() {
             Numerals numerals = new Numerals();
-            assertThat(numerals.addMultipleSymbols("X", 0), is(equalTo("")));
+            assertThat(numerals.concatMultipleSymbols("X", 0), is(equalTo("")));
         }
 
         @Test

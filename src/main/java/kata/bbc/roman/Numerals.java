@@ -1,3 +1,5 @@
+package kata.bbc.roman;
+
 public class Numerals implements RomanNumeralGenerator {
 
     private static final int SUBTRACTIVE_DIGITS = 4;
@@ -13,27 +15,23 @@ public class Numerals implements RomanNumeralGenerator {
         SymbolSet tens = new SymbolSet("X", "L", "C", 10);
         SymbolSet decimals = new SymbolSet("I", "V", "X", 1);
 
-        return convertDigit(number, thousands)
-                + convertDigit(number, hundreds)
-                + convertDigit(number, tens)
-                + convertDigit(number, decimals);
+        return generateFromDigit(number, thousands) + generateFromDigit(number, hundreds) + generateFromDigit(number, tens)
+                + generateFromDigit(number, decimals);
     }
 
-    String convertDigit(int number, SymbolSet symbolSet) {
+    public String generateFromDigit(int number, SymbolSet symbolSet) {
 
         int digit = (number / symbolSet.divisor) % 10;
         int quotient = digit / 5;
         int remainder = digit % 5;
 
-        String romanNumeral = addMultipleSymbols(symbolSet.midSymbol, quotient) + addMultipleSymbols(symbolSet.baseSymbol, remainder);
+        String romanNumeral = concatMultipleSymbols(symbolSet.midSymbol, quotient) + concatMultipleSymbols(symbolSet.baseSymbol, remainder);
+        return convertToSubtractiveNotation(romanNumeral, symbolSet, quotient);
 
-        romanNumeral = convertToSubtractiveNotation(romanNumeral, symbolSet, quotient);
-
-        return romanNumeral;
     }
 
-    String convertToSubtractiveNotation(String simpleRomanNumeral, SymbolSet symbolSet, int quotient) {
-        if (!simpleRomanNumeral.contains(addMultipleSymbols(symbolSet.baseSymbol, SUBTRACTIVE_DIGITS))) {
+    public String convertToSubtractiveNotation(String simpleRomanNumeral, SymbolSet symbolSet, int quotient) {
+        if (!simpleRomanNumeral.contains(concatMultipleSymbols(symbolSet.baseSymbol, SUBTRACTIVE_DIGITS))) {
             return simpleRomanNumeral;
         }
 
@@ -41,11 +39,11 @@ public class Numerals implements RomanNumeralGenerator {
         String replaceBy;
 
         if (quotient > 0) {
-            toReplace = symbolSet.midSymbol + addMultipleSymbols(symbolSet.baseSymbol, SUBTRACTIVE_DIGITS);
+            toReplace = symbolSet.midSymbol + concatMultipleSymbols(symbolSet.baseSymbol, SUBTRACTIVE_DIGITS);
             replaceBy = symbolSet.baseSymbol + symbolSet.upperSymbol;
 
         } else {
-            toReplace = addMultipleSymbols(symbolSet.baseSymbol, SUBTRACTIVE_DIGITS);
+            toReplace = concatMultipleSymbols(symbolSet.baseSymbol, SUBTRACTIVE_DIGITS);
             replaceBy = symbolSet.baseSymbol + symbolSet.midSymbol;
         }
 
@@ -53,7 +51,7 @@ public class Numerals implements RomanNumeralGenerator {
 
     }
 
-    String addMultipleSymbols(String symbol, int multiple) {
+    public String concatMultipleSymbols(String symbol, int multiple) {
         String symbols = "";
         for (int i = 0; i < multiple; i++) {
             symbols = symbols.concat(symbol);
