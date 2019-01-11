@@ -16,7 +16,7 @@ public class Numerals implements RomanNumeralGenerator {
                 generateFromDigit(number, NumeralSymbol.UNITS);
     }
 
-    public String generateFromDigit(int number, NumeralSymbol symbolSet) {
+    public static String generateFromDigit(int number, NumeralSymbol symbolSet) {
 
         int digit = (number / symbolSet.getDivisor()) % 10;
         int quotient = digit / 5;
@@ -26,10 +26,9 @@ public class Numerals implements RomanNumeralGenerator {
                 concatMultipleSymbols(symbolSet.getBaseSymbol(), remainder);
 
         return convertToSubtractiveNotation(romanNumeral, symbolSet, quotient);
-
     }
 
-    public String convertToSubtractiveNotation(String simpleRomanNumeral, NumeralSymbol symbolSet, int quotient) {
+    public static String convertToSubtractiveNotation(String simpleRomanNumeral, NumeralSymbol symbolSet, int quotient) {
         if (!simpleRomanNumeral.contains(concatMultipleSymbols(symbolSet.getBaseSymbol(), SUBTRACTIVE_DIGITS))) {
             return simpleRomanNumeral;
         }
@@ -47,10 +46,9 @@ public class Numerals implements RomanNumeralGenerator {
         }
 
         return simpleRomanNumeral.replace(toReplace, replaceBy);
-
     }
 
-    public String concatMultipleSymbols(String symbol, int multiple) {
+    public static String concatMultipleSymbols(String symbol, int multiple) {
         String symbols = "";
         for (int i = 0; i < multiple; i++) {
             symbols = symbols.concat(symbol);
@@ -59,38 +57,3 @@ public class Numerals implements RomanNumeralGenerator {
     }
 }
 
-enum NumeralSymbol {
-
-    UNITS("I", "V", "X", 1),
-    TENS("X", "L", "C", 10),
-    HUNDREDS("C", "D", "M", 100),
-    THOUSANDS("M", "", "", 1000);
-
-    private final String baseSymbol;
-    private final String midSymbol;
-    private final String upperSymbol;
-    private final int divisor;
-
-    public String getBaseSymbol() {
-        return baseSymbol;
-    }
-
-    public String getMidSymbol() {
-        return midSymbol;
-    }
-
-    public String getUpperSymbol() {
-        return upperSymbol;
-    }
-
-    public int getDivisor() {
-        return this.divisor;
-    }
-
-    NumeralSymbol(String baseSymbol, String midSymbol, String upperSymbol, int divisor) {
-        this.baseSymbol = baseSymbol;
-        this.midSymbol = midSymbol;
-        this.upperSymbol = upperSymbol;
-        this.divisor = divisor;
-    }
-}

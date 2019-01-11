@@ -1,3 +1,4 @@
+import kata.bbc.roman.NumeralSymbol;
 import kata.bbc.roman.Numerals;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -101,22 +102,25 @@ public class NumeralsTest {
 
         @Test
         public void testAddSymbols() {
-            Numerals numerals = new Numerals();
-            assertThat(numerals.concatMultipleSymbols("X", 4), is(equalTo("XXXX")));
+            assertThat(Numerals.concatMultipleSymbols("X", 4), is(equalTo("XXXX")));
         }
 
         @Test
         public void testAddSymbolsForZeroQuantity() {
-            Numerals numerals = new Numerals();
-            assertThat(numerals.concatMultipleSymbols("X", 0), is(equalTo("")));
+            assertThat(Numerals.concatMultipleSymbols("X", 0), is(equalTo("")));
         }
 
         @Test
         public void testConvertToSubtractiveNotation() {
-
+            assertThat(Numerals.convertToSubtractiveNotation("VIIII", NumeralSymbol.UNITS, 1), is(equalTo("IX")));
+            assertThat(Numerals.convertToSubtractiveNotation("IIII", NumeralSymbol.UNITS, 0), is(equalTo("IV")));
         }
+
         @Test
-        public void testConvertDigit() {
+        public void testGenerateFromDigitFour() {
+            assertThat(Numerals.generateFromDigit(4, NumeralSymbol.UNITS), is(equalTo("IV")));
+            assertThat(Numerals.generateFromDigit(40, NumeralSymbol.TENS), is(equalTo("XL")));
+            assertThat(Numerals.generateFromDigit(400, NumeralSymbol.HUNDREDS), is(equalTo("CD")));
 
         }
     }
