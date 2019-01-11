@@ -9,7 +9,7 @@ import java.util.Collection;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 @RunWith(Enclosed.class)
 public class NumeralsTest {
@@ -17,7 +17,7 @@ public class NumeralsTest {
     @RunWith(Parameterized.class)
     public static class ParameterizedTests {
 
-        @Parameters
+        @Parameters(name = "{index}: testGenerate({0} returns \"{1}\"")
         public static Collection<Object[]> data() {
             return Arrays.asList(new Object[][] {
                     //The first item in the array is the input, and second is the expected outcome.
@@ -77,7 +77,7 @@ public class NumeralsTest {
         }
 
         @Test
-        public void test() {
+        public void testGenerate() {
             Numerals numerals = new Numerals();
             assertThat(numerals.generate(input), is(equalTo(expected)));
         }

@@ -4,7 +4,6 @@ public class Numerals implements RomanNumeralGenerator {
 
     public String generate(int number) {
 
-
         if (number < 1 || number > 3999) {
             throw new IllegalArgumentException("Valid arguments are 1 to 3999.");
         }
@@ -65,12 +64,12 @@ public class Numerals implements RomanNumeralGenerator {
 
 class SymbolSet {
 
-    String baseSymbol;
-    String midSymbol;
-    String upperSymbol;
-    int divisor;
+    final String baseSymbol;
+    final String midSymbol;
+    final String upperSymbol;
+    final int divisor;
 
-    SymbolSet( String baseSymbol, String midSymbol, String upperSymbol, int divisor) {
+    SymbolSet(String baseSymbol, String midSymbol, String upperSymbol, int divisor) {
         this.baseSymbol = baseSymbol;
         this.midSymbol = midSymbol;
         this.upperSymbol = upperSymbol;
