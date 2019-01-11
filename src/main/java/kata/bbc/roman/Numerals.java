@@ -10,28 +10,27 @@ public class Numerals implements RomanNumeralGenerator {
             throw new IllegalArgumentException("Valid arguments are 1 to 3999.");
         }
 
-        SymbolSet thousands = new SymbolSet("M", "", "", 1000);
-        SymbolSet hundreds = new SymbolSet("C", "D", "M", 100);
-        SymbolSet tens = new SymbolSet("X", "L", "C", 10);
-        SymbolSet decimals = new SymbolSet("I", "V", "X", 1);
-
-        return generateFromDigit(number, thousands) + generateFromDigit(number, hundreds) + generateFromDigit(number, tens)
-                + generateFromDigit(number, decimals);
+        return generateFromDigit(number, NumeralSymbol.THOUSANDS) +
+                generateFromDigit(number, NumeralSymbol.HUNDREDS) +
+                generateFromDigit(number, NumeralSymbol.TENS) +
+                generateFromDigit(number, NumeralSymbol.UNITS);
     }
 
-    public String generateFromDigit(int number, SymbolSet symbolSet) {
+    public String generateFromDigit(int number, NumeralSymbol symbolSet) {
 
-        int digit = (number / symbolSet.divisor) % 10;
+        int digit = (number / symbolSet.getDivisor()) % 10;
         int quotient = digit / 5;
         int remainder = digit % 5;
 
-        String romanNumeral = concatMultipleSymbols(symbolSet.midSymbol, quotient) + concatMultipleSymbols(symbolSet.baseSymbol, remainder);
+        String romanNumeral = concatMultipleSymbols(symbolSet.getMidSymbol(), quotient) +
+                concatMultipleSymbols(symbolSet.getBaseSymbol(), remainder);
+
         return convertToSubtractiveNotation(romanNumeral, symbolSet, quotient);
 
     }
 
-    public String convertToSubtractiveNotation(String simpleRomanNumeral, SymbolSet symbolSet, int quotient) {
-        if (!simpleRomanNumeral.contains(concatMultipleSymbols(symbolSet.baseSymbol, SUBTRACTIVE_DIGITS))) {
+    public String convertToSubtractiveNotation(String simpleRomanNumeral, NumeralSymbol symbolSet, int quotient) {
+        if (!simpleRomanNumeral.contains(concatMultipleSymbols(symbolSet.getBaseSymbol(), SUBTRACTIVE_DIGITS))) {
             return simpleRomanNumeral;
         }
 
@@ -39,12 +38,12 @@ public class Numerals implements RomanNumeralGenerator {
         String replaceBy;
 
         if (quotient > 0) {
-            toReplace = symbolSet.midSymbol + concatMultipleSymbols(symbolSet.baseSymbol, SUBTRACTIVE_DIGITS);
-            replaceBy = symbolSet.baseSymbol + symbolSet.upperSymbol;
+            toReplace = symbolSet.getMidSymbol() + concatMultipleSymbols(symbolSet.getBaseSymbol(), SUBTRACTIVE_DIGITS);
+            replaceBy = symbolSet.getBaseSymbol() + symbolSet.getUpperSymbol();
 
         } else {
-            toReplace = concatMultipleSymbols(symbolSet.baseSymbol, SUBTRACTIVE_DIGITS);
-            replaceBy = symbolSet.baseSymbol + symbolSet.midSymbol;
+            toReplace = concatMultipleSymbols(symbolSet.getBaseSymbol(), SUBTRACTIVE_DIGITS);
+            replaceBy = symbolSet.getBaseSymbol() + symbolSet.getMidSymbol();
         }
 
         return simpleRomanNumeral.replace(toReplace, replaceBy);
@@ -60,14 +59,35 @@ public class Numerals implements RomanNumeralGenerator {
     }
 }
 
-class SymbolSet {
+enum NumeralSymbol {
 
-    final String baseSymbol;
-    final String midSymbol;
-    final String upperSymbol;
-    final int divisor;
+    UNITS("I", "V", "X", 1),
+    TENS("X", "L", "C", 10),
+    HUNDREDS("C", "D", "M", 100),
+    THOUSANDS("M", "", "", 1000);
 
-    SymbolSet(String baseSymbol, String midSymbol, String upperSymbol, int divisor) {
+    private final String baseSymbol;
+    private final String midSymbol;
+    private final String upperSymbol;
+    private final int divisor;
+
+    public String getBaseSymbol() {
+        return baseSymbol;
+    }
+
+    public String getMidSymbol() {
+        return midSymbol;
+    }
+
+    public String getUpperSymbol() {
+        return upperSymbol;
+    }
+
+    public int getDivisor() {
+        return this.divisor;
+    }
+
+    NumeralSymbol(String baseSymbol, String midSymbol, String upperSymbol, int divisor) {
         this.baseSymbol = baseSymbol;
         this.midSymbol = midSymbol;
         this.upperSymbol = upperSymbol;
