@@ -77,7 +77,7 @@ public class NumeralsTest {
         }
 
         @Test
-        public void test() throws Exception {
+        public void test() {
             Numerals numerals = new Numerals();
             assertThat(numerals.generate(input), is(equalTo(expected)));
         }
@@ -87,13 +87,13 @@ public class NumeralsTest {
     public static class IndividualTests {
 
         @Test(expected = IllegalArgumentException.class)
-        public void testArgumentLessThan1ThrowsException() throws Exception {
+        public void testArgumentLessThan1ThrowsException() {
             Numerals numerals = new Numerals();
             numerals.generate(0);
         }
 
         @Test(expected = IllegalArgumentException.class)
-        public void testArgumentGreaterThan3999ThrowsException() throws Exception {
+        public void testArgumentGreaterThan3999ThrowsException() {
             Numerals numerals = new Numerals();
             numerals.generate(4000);
         }
@@ -108,6 +108,15 @@ public class NumeralsTest {
         public void testAddSymbolsForZeroQuantity() {
             Numerals numerals = new Numerals();
             assertThat(numerals.addMultipleSymbols("X", 0), is(equalTo("")));
+        }
+
+        @Test
+        public void testConvertToSubtractiveNotation() {
+
+        }
+        @Test
+        public void testConvertDigit() {
+
         }
     }
 }

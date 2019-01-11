@@ -1,8 +1,8 @@
 public class Numerals implements RomanNumeralGenerator {
 
-    public static int SUBTRACTIVE_DIGITS = 4;
+    private static final int SUBTRACTIVE_DIGITS = 4;
 
-    public String generate(int number) throws Exception {
+    public String generate(int number) {
 
 
         if (number < 1 || number > 3999) {

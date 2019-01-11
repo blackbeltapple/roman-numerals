@@ -1,3 +1,3 @@
 public interface RomanNumeralGenerator {
-    public String generate(int number) throws Exception;
+    String generate(int number);
 }
