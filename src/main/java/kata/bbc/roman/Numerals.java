@@ -4,6 +4,14 @@ public class Numerals implements RomanNumeralGenerator {
 
     private static final int SUBTRACTIVE_DIGITS = 4;
 
+    /**
+     * Returns a string containing the Roman Numeral representation
+     * of the input number. It supports input numbers from 1 to 3999
+     * inclusive.
+     *
+     * @param  number  the input number to be converted to Roman Numerals
+     * @return      a string containing the Roman Numeral representation
+     */
     public String generate(int number) {
 
         if (number < 1 || number > 3999) {
